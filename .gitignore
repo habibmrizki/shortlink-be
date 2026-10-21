@@ -1,0 +1,8 @@
+.env
+
+.air.toml
+
+tmp
+
+backend/.env
+database/.env
