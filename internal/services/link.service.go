@@ -2,7 +2,9 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"math"
 	"net/url"
 	"strings"
 	"time"
@@ -112,4 +114,92 @@ func (s *linkService) CreateLink(ctx context.Context, userID int, req *dto.Creat
 		CreatedAt:   created.CreatedAt,
 		DeletedAt:   created.DeletedAt,
 	}, nil
+}
+
+func (s *linkService) GetLinks(ctx context.Context, userID int, baseURL string) ([]dto.LinkResponse, error) {
+	links, err := s.linkRepo.GetLinksByUserID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	cleanBaseURL := strings.TrimRight(baseURL, "/")
+	responses := make([]dto.LinkResponse, 0, len(links))
+	for _, l := range links {
+		responses = append(responses, dto.LinkResponse{
+			ID:          l.Id,
+			OriginalURL: l.OriginalURL,
+			Slug:        l.Slug,
+			ShortURL:    fmt.Sprintf("%s/%s", cleanBaseURL, l.Slug),
+			ClickCount:  l.ClickCount,
+			CreatedAt:   l.CreatedAt,
+			DeletedAt:   l.DeletedAt,
+		})
+	}
+
+	return responses, nil
+}
+
+func (s *linkService) GetLinksWithPagination(ctx context.Context, userID int, page, limit int, showDeleted bool, baseURL string) (*dto.PaginatedLinkResponse, error) {
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 {
+		limit = 10
+	}
+
+	links, totalItems, err := s.linkRepo.GetLinksByUserIDWithPagination(ctx, userID, page, limit, showDeleted)
+	if err != nil {
+		return nil, err
+	}
+
+	cleanBaseURL := strings.TrimRight(baseURL, "/")
+	data := make([]dto.LinkResponse, 0, len(links))
+	for _, l := range links {
+		data = append(data, dto.LinkResponse{
+			ID:          l.Id,
+			OriginalURL: l.OriginalURL,
+			Slug:        l.Slug,
+			ShortURL:    fmt.Sprintf("%s/%s", cleanBaseURL, l.Slug),
+			ClickCount:  l.ClickCount,
+			CreatedAt:   l.CreatedAt,
+			DeletedAt:   l.DeletedAt,
+		})
+	}
+
+	totalPages := int(math.Ceil(float64(totalItems) / float64(limit)))
+	if totalPages == 0 {
+		totalPages = 1
+	}
+
+	return &dto.PaginatedLinkResponse{
+		Data: data,
+		Pagination: dto.PaginationMeta{
+			Page:       page,
+			Limit:      limit,
+			TotalItems: totalItems,
+			TotalPages: totalPages,
+		},
+	}, nil
+}
+
+(s *linkService) generateUniqueSlug(ctx context.Context) (string, error) {
+	for range 5 {
+		randomSlug, err := utils.GenerateRandomString(6)
+		if err != nil {
+			return "", err
+		}
+
+		if utils.IsReservedSlug(randomSlug) {
+			continue
+		}
+
+		exists, err := s.linkRepo.IsSlugExists(ctx, randomSlug)
+		if err != nil {
+			return "", err
+		}
+		if !exists {
+			return randomSlug, nil
+		}
+	}
+	return "", errors.New("failed to generate unique slug, please try again")
 }
