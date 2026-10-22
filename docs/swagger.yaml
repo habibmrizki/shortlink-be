@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  dto.CreateLinkRequest:
+  github_com_habibmrizki_shorlink-be_internal_dto.CreateLinkRequest:
     properties:
       custom_slug:
         type: string
@@ -11,7 +11,7 @@ definitions:
     required:
     - original_url
     type: object
-  dto.LoginRequest:
+  github_com_habibmrizki_shorlink-be_internal_dto.LoginRequest:
     properties:
       email:
         type: string
@@ -21,7 +21,7 @@ definitions:
     - email
     - password
     type: object
-  dto.RegisterRequest:
+  github_com_habibmrizki_shorlink-be_internal_dto.RegisterRequest:
     properties:
       email:
         type: string
@@ -32,7 +32,7 @@ definitions:
     - email
     - password
     type: object
-  models.Response:
+  github_com_habibmrizki_shorlink-be_internal_models.Response:
     properties:
       message:
         type: string
@@ -61,11 +61,11 @@ paths:
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       summary: Redirect to original URL
       tags:
       - redirect
@@ -90,15 +90,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       security:
       - BearerAuth: []
       summary: Get user's links
@@ -113,30 +113,30 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateLinkRequest'
+          $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.CreateLinkRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       security:
       - BearerAuth: []
       summary: Create a short link
@@ -156,23 +156,23 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       security:
       - BearerAuth: []
       summary: Delete a link
@@ -192,15 +192,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       security:
       - BearerAuth: []
       summary: Check slug availability
@@ -216,26 +216,26 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.LoginRequest'
+          $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.LoginRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       summary: Log in
       tags:
       - auth
@@ -247,15 +247,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       security:
       - BearerAuth: []
       summary: Log out
@@ -271,26 +271,26 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.RegisterRequest'
+          $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.RegisterRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "409":
           description: Conflict
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.Response'
+            $ref: '#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response'
       summary: Register a user
       tags:
       - auth

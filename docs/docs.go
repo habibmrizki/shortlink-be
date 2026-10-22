@@ -53,19 +53,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -93,7 +93,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateLinkRequest"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.CreateLinkRequest"
                         }
                     }
                 ],
@@ -101,31 +101,31 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -158,19 +158,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -203,31 +203,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -252,7 +252,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.LoginRequest"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.LoginRequest"
                         }
                     }
                 ],
@@ -260,25 +260,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -302,19 +302,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -339,7 +339,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RegisterRequest"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_dto.RegisterRequest"
                         }
                     }
                 ],
@@ -347,25 +347,25 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "409": {
                         "description": "Conflict",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -393,13 +393,13 @@ const docTemplate = `{
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.Response"
+                            "$ref": "#/definitions/github_com_habibmrizki_shorlink-be_internal_models.Response"
                         }
                     }
                 }
@@ -407,7 +407,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.CreateLinkRequest": {
+        "github_com_habibmrizki_shorlink-be_internal_dto.CreateLinkRequest": {
             "type": "object",
             "required": [
                 "original_url"
@@ -424,7 +424,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.LoginRequest": {
+        "github_com_habibmrizki_shorlink-be_internal_dto.LoginRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -439,7 +439,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.RegisterRequest": {
+        "github_com_habibmrizki_shorlink-be_internal_dto.RegisterRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -455,7 +455,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Response": {
+        "github_com_habibmrizki_shorlink-be_internal_models.Response": {
             "type": "object",
             "properties": {
                 "message": {
