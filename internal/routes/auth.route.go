@@ -15,4 +15,5 @@ func AuthRoutes(api *gin.RouterGroup, db *pgxpool.Pool, rdb *redis.Client) {
 	authHandler := handlers.NewAuthHandler(authService)
 
 	api.POST("/register", authHandler.Register)
+	api.POST("/login", authHandler.Login)
 }
