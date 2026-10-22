@@ -55,3 +55,39 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, models.SuccessResponse("User registered successfully", user))
 }
+
+// Login authenticates a user and returns a JWT.
+// @Summary Log in
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body dto.LoginRequest true "Login credentials"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /api/login [post]
+func (h *AuthHandler) Login(c *gin.Context) {
+	var req dto.LoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		validationErrors := binder.FormatValidationError(err)
+		c.JSON(http.StatusBadRequest, models.Response{
+			Success: false,
+			Message: "Validation error",
+			Results: validationErrors,
+		})
+		return
+	}
+
+	result, err := h.authService.Login(c.Request.Context(), &req)
+	if err != nil {
+		if errors.Is(err, utils.ErrInvalidCredentials) {
+			c.JSON(http.StatusUnauthorized, models.ErrorResponse("Invalid email or password"))
+			return
+		}
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, models.SuccessResponse("Login successful", result))
+}
