@@ -1,8 +1,7 @@
 services:
   shortlink-fe:
-    build:
-      context: ../shortlink-fe
-      dockerfile: Dockerfile
+    image: ghcr.io/habibmrizki/shortlink-fe:latest
+    pull_policy: always
     container_name: shortlink-fe
     restart: unless-stopped
     ports:
@@ -13,9 +12,8 @@ services:
       - shortlink-be
 
   shortlink-be:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/habibmrizki/shortlink-be:latest
+    pull_policy: always
     container_name: shortlink-be
     restart: unless-stopped
     ports:
