@@ -181,6 +181,61 @@ func (h *LinkHandler) DeleteLink(c *gin.Context) {
 	c.JSON(http.StatusOK, models.SuccessResponse("Link deleted successfully", nil))
 }
 
+// CheckSlug checks if a custom slug is available for use.
+// @Summary Check slug availability
+// @Tags links
+// @Security BearerAuth
+// @Produce json
+// @Param slug query string true "Slug to check"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /api/links/check [get]
+func (h *LinkHandler) CheckSlug(c *gin.Context) {
+	slug := c.Query("slug")
+	if slug == "" {
+		c.JSON(http.StatusBadRequest, models.ErrorResponse("Slug query parameter is required"))
+		return
+	}
+
+	available, reason, err := h.linkService.CheckSlugAvailability(c.Request.Context(), slug)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, models.SuccessResponse(reason, gin.H{"available": available, "slug": slug}))
+}
+
+// Redirect handles public redirection from /{slug} to the original URL (HTTP 301).
+// @Summary Redirect to original URL
+// @Tags redirect
+// @Param slug path string true "Short link slug"
+// @Success 301
+// @Failure 404 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /{slug} [get]
+func (h *LinkHandler) Redirect(c *gin.Context) {
+	slug := c.Param("slug")
+	if slug == "" {
+		c.JSON(http.StatusNotFound, models.ErrorResponse("Link not found"))
+		return
+	}
+
+	originalURL, err := h.linkService.GetOriginalURL(c.Request.Context(), slug)
+	if err != nil {
+		if errors.Is(err, utils.ErrLinkNotFound) {
+			c.JSON(http.StatusNotFound, models.ErrorResponse("Link not found"))
+			return
+		}
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse(err.Error()))
+		return
+	}
+
+	// HTTP 301 Permanent Redirect
+	c.Redirect(http.StatusMovedPermanently, originalURL)
+}
+
 func getBaseURL(c *gin.Context) string {
 	baseURL := os.Getenv("BASE_URL")
 	if baseURL != "" {
