@@ -8,12 +8,15 @@ import (
 )
 
 var ReservedWords = map[string]bool{
-	"api":       true,
-	"login":     true,
-	"register":  true,
-	"dashboard": true,
-	"swagger":   true,
-	"health":    true,
+	"api":         true,
+	"login":       true,
+	"register":    true,
+	"dashboard":   true,
+	"create-link": true,
+	"profile":     true,
+	"assets":      true,
+	"swagger":     true,
+	"health":      true,
 }
 
 var SlugRegex = regexp.MustCompile(`^[a-zA-Z0-9-]+$`)
@@ -41,4 +44,3 @@ func IsReservedSlug(slug string) bool {
 func IsValidSlugFormat(slug string) bool {
 	return SlugRegex.MatchString(slug)
 }
-
