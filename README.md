@@ -1,6 +1,14 @@
+<p align="center">
+  <img src="public/shortlink-mark.svg" width="96" height="96" alt="ShortLink logo" />
+</p>
+
 # 🔗 Shortlink App — Backend Service
 
 A high-performance, production-ready URL Shortener REST API built with **Go (Gin)**, **PostgreSQL**, and **Redis**. Designed with clean architecture principles, robust security practices, and containerized deployment.
+
+## About ShortLink
+
+ShortLink is a URL-shortening application for creating and managing concise links that redirect to their original destinations. This repository provides the REST API: it handles user registration and login, validates and stores links, caches redirect targets, and records click activity. The separate [ShortLink frontend](https://github.com/habibmrizki/shortlink-fe) provides the user interface for these features.
 
 ---
 
