@@ -8,12 +8,6 @@ type CreateLinkRequest struct {
 	CustomSlug  string `json:"custom_slug,omitempty"`
 }
 
-type UpdateLinkRequest struct {
-	OriginalURL *string `json:"original_url,omitempty"`
-	Slug        *string `json:"slug,omitempty"`
-	CustomSlug  *string `json:"custom_slug,omitempty"`
-}
-
 type LinkResponse struct {
 	ID          int        `json:"id"`
 	OriginalURL string     `json:"original_url"`
