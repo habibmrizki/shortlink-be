@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 
-	_ "github.com/habibmrizki/shorlink-be/docs"
 	"github.com/habibmrizki/shorlink-be/internal/configs"
 	"github.com/habibmrizki/shorlink-be/internal/routes"
 	"github.com/joho/godotenv"
