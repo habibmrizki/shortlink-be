@@ -32,15 +32,6 @@ definitions:
     - email
     - password
     type: object
-  dto.UpdateLinkRequest:
-    properties:
-      custom_slug:
-        type: string
-      original_url:
-        type: string
-      slug:
-        type: string
-    type: object
   models.Response:
     properties:
       message:
@@ -185,53 +176,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete a link
-      tags:
-      - links
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: Link ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Updated details
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateLinkRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.Response'
-        "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/models.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Response'
-      security:
-      - BearerAuth: []
-      summary: Update a link
       tags:
       - links
   /api/links/check:

@@ -177,79 +177,6 @@ const docTemplate = `{
             }
         },
         "/api/links/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "links"
-                ],
-                "summary": "Update a link",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Link ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Updated details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateLinkRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "security": [
                     {
@@ -525,20 +452,6 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "minLength": 6
-                }
-            }
-        },
-        "dto.UpdateLinkRequest": {
-            "type": "object",
-            "properties": {
-                "custom_slug": {
-                    "type": "string"
-                },
-                "original_url": {
-                    "type": "string"
-                },
-                "slug": {
-                    "type": "string"
                 }
             }
         },
