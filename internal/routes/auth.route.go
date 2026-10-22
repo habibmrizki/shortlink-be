@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/habibmrizki/shorlink-be/internal/handlers"
+	"github.com/habibmrizki/shorlink-be/internal/middlewares"
 	"github.com/habibmrizki/shorlink-be/internal/repositories"
 	"github.com/habibmrizki/shorlink-be/internal/services"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -16,4 +17,5 @@ func AuthRoutes(api *gin.RouterGroup, db *pgxpool.Pool, rdb *redis.Client) {
 
 	api.POST("/register", authHandler.Register)
 	api.POST("/login", authHandler.Login)
+	api.POST("/logout", middlewares.VerifyToken(rdb), authHandler.Logout)
 }
