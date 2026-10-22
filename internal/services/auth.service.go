@@ -59,3 +59,33 @@ func (s *authService) Register(ctx context.Context, req *dto.RegisterRequest) (*
 		Email: user.Email,
 	}, nil
 }
+
+func (s *authService) Login(ctx context.Context, req *dto.LoginRequest) (*dto.LoginResult, error) {
+	user, err := s.authRepo.GetUserByEmail(ctx, req.Email)
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		return nil, ErrInvalidCredentials
+	}
+
+	hashCfg := pkg.NewHashConfig()
+	isValid, err := hashCfg.CompareHashAndPassword(req.Password, user.PasswordHash)
+	if err != nil || !isValid {
+		return nil, ErrInvalidCredentials
+	}
+
+	claims := pkg.NewJWTClaims(user.Id, "user")
+	token, err := claims.GenToken()
+	if err != nil {
+		return nil, err
+	}
+
+	return &dto.LoginResult{
+		Token: token,
+		User: dto.UserResponse{
+			ID:    user.Id,
+			Email: user.Email,
+		},
+	}, nil
+}
