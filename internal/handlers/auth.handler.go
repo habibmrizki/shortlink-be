@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/habibmrizki/shorlink-be/internal/binder"
@@ -90,4 +91,35 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, models.SuccessResponse("Login successful", result))
+}
+
+// Logout revokes the current JWT using Redis blacklist.
+// @Summary Log out
+// @Tags auth
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /api/logout [post]
+func (h *AuthHandler) Logout(c *gin.Context) {
+	tokenVal, exists := c.Get("token")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, models.ErrorResponse("Unauthorized"))
+		return
+	}
+	token, _ := tokenVal.(string)
+
+	expiresAtVal, exists := c.Get("expires_at")
+	var expiresAt time.Time
+	if exists {
+		expiresAt, _ = expiresAtVal.(time.Time)
+	}
+
+	if err := h.authService.Logout(c.Request.Context(), token, expiresAt); err != nil {
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse("Failed to logout: "+err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, models.SuccessResponse("Logout successful", nil))
 }
