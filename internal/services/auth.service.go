@@ -89,3 +89,7 @@ func (s *authService) Login(ctx context.Context, req *dto.LoginRequest) (*dto.Lo
 		},
 	}, nil
 }
+
+func (s *authService) Logout(ctx context.Context, token string, expiresAt time.Time) error {
+	return utils.AddToBlacklist(ctx, s.rdb, token, expiresAt)
+}
