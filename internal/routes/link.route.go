@@ -12,4 +12,6 @@ func LinkRoutes(api *gin.RouterGroup, linkHandler *handlers.LinkHandler, rdb *re
 	links.Use(middlewares.VerifyToken(rdb))
 
 	links.POST("", linkHandler.CreateLink)
+	links.GET("", linkHandler.GetLinks)
+
 }
