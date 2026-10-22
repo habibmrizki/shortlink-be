@@ -137,6 +137,50 @@ func (h *LinkHandler) GetLinks(c *gin.Context) {
 	c.JSON(http.StatusOK, models.SuccessResponse("Links retrieved successfully", results))
 }
 
+// DeleteLink soft-deletes a short link owned by the user.
+// @Summary Delete a link
+// @Tags links
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Link ID"
+// @Success 200 {object} models.Response
+// @Failure 400 {object} models.Response
+// @Failure 401 {object} models.Response
+// @Failure 404 {object} models.Response
+// @Failure 500 {object} models.Response
+// @Router /api/links/{id} [delete]
+func (h *LinkHandler) DeleteLink(c *gin.Context) {
+	userIDVal, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, models.ErrorResponse("Unauthorized"))
+		return
+	}
+	userID, ok := userIDVal.(int)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, models.ErrorResponse("Invalid user identification"))
+		return
+	}
+
+	idParam := c.Param("id")
+	linkID, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.ErrorResponse("Invalid link ID"))
+		return
+	}
+
+	err = h.linkService.DeleteLink(c.Request.Context(), linkID, userID)
+	if err != nil {
+		if errors.Is(err, utils.ErrLinkNotFound) {
+			c.JSON(http.StatusNotFound, models.ErrorResponse("Link not found"))
+			return
+		}
+		c.JSON(http.StatusInternalServerError, models.ErrorResponse(err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, models.SuccessResponse("Link deleted successfully", nil))
+}
+
 func getBaseURL(c *gin.Context) string {
 	baseURL := os.Getenv("BASE_URL")
 	if baseURL != "" {
