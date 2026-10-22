@@ -208,3 +208,93 @@ func (r *linkRepository) GetLinksByUserID(ctx context.Context, userID int) ([]mo
 	}
 	return links, nil
 }
+
+func (r *linkRepository) GetLinksByUserIDWithPagination(ctx context.Context, userID int, page, limit int, showDeleted bool) ([]models.Link, int, error) {
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 {
+		limit = 10
+	}
+	offset := (page - 1) * limit
+
+	var countQuery string
+	var dataQuery string
+
+	if showDeleted {
+		countQuery = `SELECT COUNT(*) FROM links WHERE user_id = $1 AND deleted_at IS NOT NULL`
+		dataQuery = `
+			SELECT id, user_id, original_url, slug, click_count, created_at, deleted_at
+			FROM links
+			WHERE user_id = $1 AND deleted_at IS NOT NULL
+			ORDER BY deleted_at DESC
+			LIMIT $2 OFFSET $3
+		`
+	} else {
+		countQuery = `SELECT COUNT(*) FROM links WHERE user_id = $1 AND deleted_at IS NULL`
+		dataQuery = `
+			SELECT id, user_id, original_url, slug, click_count, created_at, deleted_at
+			FROM links
+			WHERE user_id = $1 AND deleted_at IS NULL
+			ORDER BY created_at DESC
+			LIMIT $2 OFFSET $3
+		`
+	}
+
+	var totalItems int
+	err := r.db.QueryRow(ctx, countQuery, userID).Scan(&totalItems)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	rows, err := r.db.Query(ctx, dataQuery, userID, limit, offset)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	links := make([]models.Link, 0)
+	for rows.Next() {
+		var link models.Link
+		err := rows.Scan(
+			&link.Id,
+			&link.UserId,
+			&link.OriginalURL,
+			&link.Slug,
+			&link.ClickCount,
+			&link.CreatedAt,
+			&link.DeletedAt,
+		)
+		if err != nil {
+			return nil, 0, err
+		}
+		links = append(links, link)
+	}
+	return links, totalItems, nil
+}
+
+func (r *linkRepository) DeleteLink(ctx context.Context, linkID, userID int) error {
+	query := `
+		UPDATE links
+		SET deleted_at = NOW()
+		WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL
+	`
+	result, err := r.db.Exec(ctx, query, linkID, userID)
+	if err != nil {
+		return err
+	}
+	if result.RowsAffected() == 0 {
+		return ErrLinkNotFound
+	}
+	return nil
+}
+
+func (r *linkRepository) IncrementClickCount(ctx context.Context, slug string) error {
+	query := `
+		UPDATE links
+		SET click_count = click_count + 1
+		WHERE slug = $1 AND deleted_at IS NULL
+	`
+	_, err := r.db.Exec(ctx, query, slug)
+	return err
+}
