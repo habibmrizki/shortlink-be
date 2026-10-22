@@ -182,8 +182,76 @@ func (s *linkService) GetLinksWithPagination(ctx context.Context, userID int, pa
 	}, nil
 }
 
-(s *linkService) generateUniqueSlug(ctx context.Context) (string, error) {
-	for range 5 {
+func (s *linkService) DeleteLink(ctx context.Context, linkID, userID int) error {
+	link, err := s.linkRepo.GetLinkByIDAndUserID(ctx, linkID, userID)
+	if err != nil {
+		return err
+	}
+	if link == nil {
+		return ErrLinkNotFound
+	}
+
+	if err := s.linkRepo.DeleteLink(ctx, linkID, userID); err != nil {
+		return err
+	}
+
+	_ = utils.InvalidateSlugCache(ctx, s.rdb, link.Slug)
+	return nil
+}
+
+func (s *linkService) GetOriginalURL(ctx context.Context, slug string) (string, error) {
+	if utils.IsReservedSlug(slug) {
+		return "", ErrLinkNotFound
+	}
+
+	cachedURL, err := utils.GetSlugCache(ctx, s.rdb, slug)
+	if err == nil && cachedURL != "" {
+		go func(targetSlug string) {
+			_ = s.linkRepo.IncrementClickCount(context.Background(), targetSlug)
+		}(slug)
+		return cachedURL, nil
+	}
+
+	link, err := s.linkRepo.GetLinkBySlug(ctx, slug)
+	if err != nil {
+		return "", err
+	}
+	if link == nil {
+		return "", ErrLinkNotFound
+	}
+
+	_ = utils.SetSlugCache(ctx, s.rdb, link.Slug, link.OriginalURL, 24*time.Hour)
+
+	go func(targetSlug string) {
+		_ = s.linkRepo.IncrementClickCount(context.Background(), targetSlug)
+	}(link.Slug)
+
+	return link.OriginalURL, nil
+}
+
+func (s *linkService) CheckSlugAvailability(ctx context.Context, slug string) (bool, string, error) {
+	slug = strings.TrimSpace(slug)
+	if len(slug) < 3 || len(slug) > 50 {
+		return false, "Slug must be between 3 and 50 characters", nil
+	}
+	if !utils.IsValidSlugFormat(slug) {
+		return false, "Slug can only contain alphanumeric characters and hyphens", nil
+	}
+	if utils.IsReservedSlug(slug) {
+		return false, "Slug cannot use reserved words (api, login, register, dashboard)", nil
+	}
+	exists, err := s.linkRepo.IsSlugExists(ctx, slug)
+	if err != nil {
+		return false, "", err
+	}
+	if exists {
+		return false, "Slug already taken", nil
+	}
+	return true, "Slug is available", nil
+}
+
+func (s *linkService) generateUniqueSlug(ctx context.Context) (string, error) {
+	for attempt := 0; attempt < 5; attempt++ {
 		randomSlug, err := utils.GenerateRandomString(6)
 		if err != nil {
 			return "", err
