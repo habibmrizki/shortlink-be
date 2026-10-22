@@ -14,5 +14,5 @@ func LinkRoutes(api *gin.RouterGroup, linkHandler *handlers.LinkHandler, rdb *re
 	links.POST("", linkHandler.CreateLink)
 	links.GET("", linkHandler.GetLinks)
 	links.DELETE("/:id", linkHandler.DeleteLink)
-
+	links.GET("/check", linkHandler.CheckSlug)
 }
