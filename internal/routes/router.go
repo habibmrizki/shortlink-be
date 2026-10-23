@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/habibmrizki/shorlink-be/docs"
 	"github.com/habibmrizki/shorlink-be/internal/handlers"
 	"github.com/habibmrizki/shorlink-be/internal/middlewares"
 	"github.com/habibmrizki/shorlink-be/internal/models"
